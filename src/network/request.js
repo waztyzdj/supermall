@@ -16,16 +16,16 @@ export function request(config) {
   instance.interceptors.request.use(config => {
     return config
   }, err => {
-    console.log(err);
+    console.log(err)
   });
 
   // 2.1 使用response拦截器
   instance.interceptors.response.use(res => {
     return res.data
   }, err => {
-    console.log(err);
+    console.log(err)
   });
 
   // 3. 发送真正的网络请求并返回Promise。可以拿到结果后调用resolve, rejected
-  return instance;
+  return instance(config);
 }
