@@ -5,6 +5,33 @@
     </nav-bar>
     <home-swiper :banner="banner"></home-swiper>
     <recommend :recommend="recommend"></recommend>
+    <feature/>
+    <ul>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+    </ul>
+
   </div>
 </template>
 
@@ -12,6 +39,7 @@
 import NavBar from 'components/common/navBar/NavBar';
 import HomeSwiper from './childComponents/HomeSwiper'
 import Recommend from "./childComponents/Recommend";
+import Feature from "./childComponents/Feature";
 
 import { getHomeMultidata } from 'network/home';
 
@@ -26,7 +54,8 @@ export default {
   components: {
     NavBar,
     HomeSwiper,
-    Recommend
+    Recommend,
+    Feature
   },
   created() {
     getHomeMultidata().then(res => {
@@ -39,9 +68,17 @@ export default {
 </script>
 
 <style>
-.home-nav-bar {
-  text-align: center;
-  background: var(--color-tint);
-  color: #fff;
-}
+  #home {
+    padding-top: 44px;
+  }
+  .home-nav-bar {
+    text-align: center;
+    background: var(--color-tint);
+    color: #fff;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 9;
+  }
 </style>
