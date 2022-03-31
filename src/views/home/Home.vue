@@ -6,7 +6,52 @@
     <home-swiper :banner="banner"></home-swiper>
     <recommend :recommend="recommend"></recommend>
     <feature/>
+    <tab-control class="tab-control" :titles="['流行', '新款', '精选']"></tab-control>
     <ul>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
       <li>1</li>
       <li>1</li>
       <li>1</li>
@@ -36,10 +81,12 @@
 </template>
 
 <script>
-import NavBar from 'components/common/navBar/NavBar';
 import HomeSwiper from './childComponents/HomeSwiper'
 import Recommend from "./childComponents/Recommend";
 import Feature from "./childComponents/Feature";
+
+import NavBar from 'components/common/navBar/NavBar';
+import TabControl from "components/common/tabControl/TabControl";
 
 import { getHomeMultidata } from 'network/home';
 
@@ -52,10 +99,12 @@ export default {
     }
   },
   components: {
-    NavBar,
     HomeSwiper,
     Recommend,
-    Feature
+    Feature,
+
+    NavBar,
+    TabControl
   },
   created() {
     getHomeMultidata().then(res => {
@@ -80,5 +129,10 @@ export default {
     right: 0;
     top: 0;
     z-index: 9;
+  }
+
+  .tab-control {
+    position: sticky;
+    top: 44px;
   }
 </style>
