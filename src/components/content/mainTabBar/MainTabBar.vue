@@ -21,28 +21,28 @@ export default {
           path: '/home',
           icon: '/img/tabbar/home.svg',
           iconActive: '/img/tabbar/home_active.svg',
-          activeColor: 'deeppink'
+          activeColor: '#ff5777'
         },
         {
           text: '分类',
           path: '/category',
           icon: '/img/tabbar/category.svg',
           iconActive: '/img/tabbar/category_active.svg',
-          activeColor: 'deeppink'
+          activeColor: '#ff5777'
         },
         {
           text: '购物车',
           path: '/cart',
           icon: '/img/tabbar/cart.svg',
           iconActive: '/img/tabbar/cart_active.svg',
-          activeColor: 'deeppink'
+          activeColor: '#ff5777'
         },
         {
           text: '我的',
           path: '/profile',
           icon: '/img/tabbar/profile.svg',
           iconActive: '/img/tabbar/profile_active.svg',
-          activeColor: 'deeppink'
+          activeColor: '#ff5777'
         }
       ]
     }
