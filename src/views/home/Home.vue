@@ -3,7 +3,7 @@
     <nav-bar class="home-nav-bar">
       <div slot="center">购物街</div>
     </nav-bar>
-    <scroll class="content">
+    <scroll class="content" :options="scrollOptions" ref="scroll" @pullingUp="loadMore" @scroll="scroll">
       <home-swiper :banner="banner"></home-swiper>
       <recommend :recommend="recommend"></recommend>
       <feature/>
@@ -13,6 +13,7 @@
       />
       <goods-list :goodsList="goodsList"/>
     </scroll>
+    <back-top v-show="isShowBackTop" class="back-top" @click.native="backTopClick"></back-top>
   </div>
 </template>
 
@@ -24,6 +25,7 @@ import Feature from "./childComponents/Feature";
 import NavBar from 'components/common/navBar/NavBar';
 import TabControl from "components/common/tabControl/TabControl";
 import Scroll from "components/common/scroll/Scroll";
+import BackTop from "components/common/backTop/BackTop";
 
 import GoodsList from "components/content/goodsList/GoodsList";
 
@@ -41,7 +43,16 @@ export default {
         sell: { page: 0, list: [] }
       },
       goodsList: [],
-      currTabType: 'pop'
+      currTabType: 'pop',
+      scrollOptions: {
+        probeType: 3,
+        click: true,
+        pullUpLoad: {
+          threshold: 500
+        },
+        pullDownRefresh: true
+      },
+      isShowBackTop: false
     }
   },
   components: {
@@ -52,10 +63,11 @@ export default {
     NavBar,
     TabControl,
     Scroll,
+    BackTop,
 
     GoodsList
   },
-  created() {
+  created: function () {
     // 获取首页banner及recommend数据
     this.getHomeMultidata()
 
@@ -66,6 +78,12 @@ export default {
 
     // 显示流行商品列表
     this.tabClick(0)
+  },
+  mounted() {
+    // 增加监听图片加载时间
+    this.$bus.$on('goodsItemImgLoaded', () => {
+      this.$refs.scroll && this.$refs.scroll.refresh()
+    })
   },
   methods: {
     /**
@@ -80,6 +98,20 @@ export default {
         this.currTabType = 'sell'
       }
       this.goodsList = this.goods[this.currTabType].list;
+    },
+
+    backTopClick() {
+      this.$refs.scroll.scrollTo(0, 0);
+    },
+
+    // 下滑到底部加载数据
+    loadMore(){
+      this.getHomeGoods(this.currTabType)
+    },
+
+    // 滑动时触发
+    scroll(pos) {
+      pos.y <= -1000 ? this.isShowBackTop = true :  this.isShowBackTop = false
     },
 
     /**
@@ -99,6 +131,7 @@ export default {
       getHomeGoods(type, page).then(res => {
         this.goods[type].list.push(...res.data.list)
         this.goods[type].page = page
+        this.$refs.scroll.finishPullUp()
       })
     }
   }
@@ -129,7 +162,6 @@ export default {
   }
 
   .content {
-    /*height: 300px;*/
     overflow: hidden;
     position: absolute;
     top: 44px;
