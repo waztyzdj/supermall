@@ -3,14 +3,16 @@
     <nav-bar class="home-nav-bar">
       <div slot="center">购物街</div>
     </nav-bar>
-    <home-swiper :banner="banner"></home-swiper>
-    <recommend :recommend="recommend"></recommend>
-    <feature/>
-    <tab-control class="tab-control"
-                 :titles="['流行', '新款', '精选']"
-                 @tabClick="tabClick"
-    />
-    <goods-list :goodsList="goodsList"/>
+    <scroll class="content">
+      <home-swiper :banner="banner"></home-swiper>
+      <recommend :recommend="recommend"></recommend>
+      <feature/>
+      <tab-control class="tab-control"
+                   :titles="['流行', '新款', '精选']"
+                   @tabClick="tabClick"
+      />
+      <goods-list :goodsList="goodsList"/>
+    </scroll>
   </div>
 </template>
 
@@ -21,6 +23,8 @@ import Feature from "./childComponents/Feature";
 
 import NavBar from 'components/common/navBar/NavBar';
 import TabControl from "components/common/tabControl/TabControl";
+import Scroll from "components/common/scroll/Scroll";
+
 import GoodsList from "components/content/goodsList/GoodsList";
 
 import { getHomeMultidata, getHomeGoods } from 'network/home';
@@ -47,6 +51,8 @@ export default {
 
     NavBar,
     TabControl,
+    Scroll,
+
     GoodsList
   },
   created() {
@@ -99,9 +105,11 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
   #home {
     padding-top: 44px;
+    height: 100vh;
+    position: relative;
   }
   .home-nav-bar {
     text-align: center;
@@ -118,5 +126,15 @@ export default {
     position: sticky;
     top: 44px;
     z-index: 9;
+  }
+
+  .content {
+    /*height: 300px;*/
+    overflow: hidden;
+    position: absolute;
+    top: 44px;
+    bottom: 49px;
+    left: 0px;
+    right: 0px;
   }
 </style>
