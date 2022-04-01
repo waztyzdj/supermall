@@ -30,7 +30,7 @@ import BackTop from "components/common/backTop/BackTop";
 import GoodsList from "components/content/goodsList/GoodsList";
 
 import { getHomeMultidata, getHomeGoods } from 'network/home';
-import debounce from "utils/debounceUtil"
+import { debounce } from 'common/utils'
 
 export default {
   name: 'Home',
@@ -49,7 +49,7 @@ export default {
         probeType: 3,
         click: true,
         pullUpLoad: {
-          threshold: 500
+          threshold: 1000
         },
         pullDownRefresh: true
       },

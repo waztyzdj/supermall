@@ -8,8 +8,7 @@ module.exports = defineConfig({
         'common': '@/common',
         'components': '@/components',
         'network': '@/network',
-        'views': '@/views',
-        'utils': '@/utils'
+        'views': '@/views'
       }
     }
   }
