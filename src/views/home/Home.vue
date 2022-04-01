@@ -30,6 +30,7 @@ import BackTop from "components/common/backTop/BackTop";
 import GoodsList from "components/content/goodsList/GoodsList";
 
 import { getHomeMultidata, getHomeGoods } from 'network/home';
+import debounce from "utils/debounceUtil"
 
 export default {
   name: 'Home',
@@ -81,8 +82,10 @@ export default {
   },
   mounted() {
     // 增加监听图片加载时间
+    const refresh = debounce(this.$refs.scroll.refresh, 200)
+
     this.$bus.$on('goodsItemImgLoaded', () => {
-      this.$refs.scroll && this.$refs.scroll.refresh()
+      refresh()
     })
   },
   methods: {
@@ -111,7 +114,7 @@ export default {
 
     // 滑动时触发
     scroll(pos) {
-      pos.y <= -1000 ? this.isShowBackTop = true :  this.isShowBackTop = false
+      this.isShowBackTop = pos.y <= -1000
     },
 
     /**
