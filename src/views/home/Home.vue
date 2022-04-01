@@ -13,8 +13,7 @@
       <home-swiper :banner="banner"></home-swiper>
       <recommend :recommend="recommend"></recommend>
       <feature/>
-      <tab-control class="tab-control"
-                   :titles="['流行', '新款', '精选']"
+      <tab-control :titles="['流行', '新款', '精选']"
                    @tabClick="tabClick"
                    ref="tabControl2"
       />
@@ -57,8 +56,7 @@ export default {
         click: true,
         pullUpLoad: {
           threshold: 1000
-        },
-        pullDownRefresh: true
+        }
       },
       isShowBackTop: false,
       tabControlOffsetTop: 0,
@@ -160,7 +158,6 @@ export default {
 
 <style scoped>
   #home {
-    padding-top: 44px;
     height: 100vh;
     position: relative;
   }
@@ -168,16 +165,10 @@ export default {
     text-align: center;
     background: var(--color-tint);
     color: #fff;
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    z-index: 9;
   }
 
   .tab-control {
-    position: sticky;
-    top: 44px;
+    position: relative;
     z-index: 9;
   }
 
