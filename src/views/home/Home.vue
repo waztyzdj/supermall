@@ -3,6 +3,12 @@
     <nav-bar class="home-nav-bar">
       <div slot="center">购物街</div>
     </nav-bar>
+    <tab-control class="tab-control"
+                 :titles="['流行', '新款', '精选']"
+                 @tabClick="tabClick"
+                 ref="tabControl1"
+                 v-show="isFixTabControl"
+    />
     <scroll class="content" :options="scrollOptions" ref="scroll" @pullingUp="loadMore" @scroll="scroll">
       <home-swiper :banner="banner"></home-swiper>
       <recommend :recommend="recommend"></recommend>
@@ -10,6 +16,7 @@
       <tab-control class="tab-control"
                    :titles="['流行', '新款', '精选']"
                    @tabClick="tabClick"
+                   ref="tabControl2"
       />
       <goods-list :goodsList="goodsList"/>
     </scroll>
@@ -53,7 +60,9 @@ export default {
         },
         pullDownRefresh: true
       },
-      isShowBackTop: false
+      isShowBackTop: false,
+      tabControlOffsetTop: 0,
+      isFixTabControl: false
     }
   },
   components: {
@@ -76,17 +85,22 @@ export default {
     this.getHomeGoods('pop')
     this.getHomeGoods('new')
     this.getHomeGoods('sell')
-
-    // 显示流行商品列表
-    this.tabClick(0)
   },
   mounted() {
+    // 显示商品列表
+    this.tabClick(0);
+
     // 增加监听图片加载时间
     const refresh = debounce(this.$refs.scroll.refresh, 200)
 
     this.$bus.$on('goodsItemImgLoaded', () => {
       refresh()
     })
+
+    // 增加延迟获取tabControl的offsetHeight
+    setTimeout(() => {
+      this.tabControlOffsetTop = this.$refs.tabControl2.$el.offsetTop
+    }, 1000)
   },
   methods: {
     /**
@@ -100,7 +114,9 @@ export default {
       } else if(index === 2) {
         this.currTabType = 'sell'
       }
-      this.goodsList = this.goods[this.currTabType].list;
+      this.goodsList = this.goods[this.currTabType].list
+      this.$refs.tabControl1.currIndex = index
+      this.$refs.tabControl2.currIndex = index
     },
 
     backTopClick() {
@@ -115,6 +131,7 @@ export default {
     // 滑动时触发
     scroll(pos) {
       this.isShowBackTop = pos.y <= -1000
+      this.isFixTabControl = -pos.y >= this.tabControlOffsetTop
     },
 
     /**
