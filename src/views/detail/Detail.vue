@@ -1,5 +1,5 @@
 <template>
-  <div class="detail">
+  <div id="detail">
     <detail-nav-bar class="detail-nav-bar"/>
     <scroll class="content" :options="scrollOptions" ref="scroll" @scroll="scroll">
       <detail-swiper :topImages="topImages" class="detail-swiper"/>
@@ -75,17 +75,20 @@ export default {
     height: 300px;
   }
 
-  .detail {
+  #detail {
     height: 100vh;
     position: relative;
+    z-index: 12;
+    background-color: #fff;
+  }
+
+  .detail-nav-bar {
+    position: relative;
+    z-index: 9;
+    background-color: #fff;
   }
 
   .content {
-    overflow: hidden;
-    position: absolute;
-    top: 44px;
-    bottom: 49px;
-    left: 0px;
-    right: 0px;
+    height: calc(100% - 44px);
   }
 </style>
