@@ -5,7 +5,10 @@
       <detail-swiper :topImages="topImages" class="detail-swiper"/>
       <detail-base-info :goods="goods"/>
       <detail-shop-info :shop="shop"/>
-      <detail-goods-info :detailInfo="detailInfo" @goodsImageLoaded="goodsImageLoaded"/>
+      <detail-goods-info class="detail-goods-info" :detailInfo="detailInfo" @goodsImageLoaded="goodsImageLoaded"/>
+      <detail-param-info :paramInfo="paramInfo"/>
+      <detail-comment-info :commentInfo="commentInfo"/>
+      <detail-recommend-info :recommendList="recommendList"/>
     </scroll>
   </div>
 </template>
@@ -16,10 +19,13 @@ import DetailSwiper from "./childComponents/DetailSwiper";
 import DetailBaseInfo from "./childComponents/DetailBaseInfo";
 import DetailShopInfo from "./childComponents/DetailShopInfo";
 import DetailGoodsInfo from "./childComponents/DetailGoodsInfo";
+import DetailParamInfo from "./childComponents/DetailParamInfo";
+import DetailCommentInfo from "./childComponents/DetailCommentInfo";
+import DetailRecommendInfo from "./childComponents/DetailRecommendInfo";
 
 import Scroll from "components/common/scroll/Scroll";
 
-import { getDetail, Goods, Shop } from "network/detail";
+import { getDetail, getRecommend, Goods, Shop, GoodsParam } from "network/detail";
 import { debounce } from "common/utils";
 
 export default {
@@ -33,7 +39,10 @@ export default {
       scrollOptions: {
         probeType: 3,
       },
-      detailInfo: {}
+      detailInfo: {},
+      paramInfo: {},
+      commentInfo: {},
+      recommendList: []
     }
   },
   components: {
@@ -42,14 +51,20 @@ export default {
     DetailBaseInfo,
     DetailShopInfo,
     DetailGoodsInfo,
+    DetailParamInfo,
+    DetailCommentInfo,
+    DetailRecommendInfo,
 
     Scroll
   },
   created() {
     this.iid = this.$route.params.iid
 
-    // 请求数据
+    // 请求商品数据
     this.getDetailData()
+
+    // 请求推荐数据
+    this.getRecommendData()
   },
   mounted() {
     // 将防抖函数挂载到refresh上面
@@ -60,7 +75,6 @@ export default {
       getDetail(this.iid).then(res => {
         // 1. 获取结果
         const data = res.result
-        console.log(data)
 
         // 2. 获取顶部轮播图信息
         this.topImages = data.itemInfo.topImages
@@ -73,8 +87,24 @@ export default {
 
         // 5. 获取商品详细信息
         this.detailInfo = data.detailInfo;
+
+        // 6. 获取商品参数信息
+        this.paramInfo = new GoodsParam(data.itemParams.info, data.itemParams.rule);
+
+        // 7. 获取商品评论信息
+        if (data.rate.list) {
+          this.commentInfo = data.rate.list[0];
+        }
       })
     },
+
+    getRecommendData() {
+      getRecommend().then((res, error) => {
+        if (error) return
+        this.recommendList = res.data.list
+      })
+    },
+
     scroll(pos) {
       // console.log(pos)
     },
@@ -108,5 +138,11 @@ export default {
 
   .content {
     height: calc(100% - 44px);
+    overflow: hidden;
+  }
+
+  .detail-goods-info {
+    padding-left: 8px;
+    padding-right: 8px;
   }
 </style>

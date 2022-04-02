@@ -18,7 +18,7 @@ export default {
   name: "DetailNavBar",
   data() {
     return {
-      titles: ['商品', '参数', '详情', '评论'],
+      titles: ['商品', '参数', '评论', '推荐'],
       currIndex: 0
     }
   },
