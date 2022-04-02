@@ -26,6 +26,9 @@ export default {
     itemClick(index) {
       this.currIndex = index
       this.$emit('tabClick', index)
+    },
+    setTabIndex(index) {
+      this.currIndex = index
     }
   }
 }

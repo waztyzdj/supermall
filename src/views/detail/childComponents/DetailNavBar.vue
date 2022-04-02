@@ -4,7 +4,7 @@
       <div slot="left" class="back" @click="goback">
         <img src="~assets/img/common/back.svg">
       </div>
-      <tab-control slot="center" :titles="this.titles" class="title" @tabClick="tabClick"></tab-control>
+      <tab-control ref="tabControl" slot="center" :titles="this.titles" class="title" @tabClick="tabClick"></tab-control>
     </nav-bar>
   </div>
 </template>
@@ -18,8 +18,7 @@ export default {
   name: "DetailNavBar",
   data() {
     return {
-      titles: ['商品', '参数', '评论', '推荐'],
-      currIndex: 0
+      titles: ['商品', '参数', '评论', '推荐']
     }
   },
   components: {
@@ -31,7 +30,10 @@ export default {
       this.$router.back()
     },
     tabClick(index) {
-      console.log(index)
+      this.$parent.scrollTo(index)
+    },
+    setTabIndex(index) {
+      this.$refs.tabControl.setTabIndex(index)
     }
   }
 }

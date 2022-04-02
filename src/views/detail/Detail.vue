@@ -1,18 +1,17 @@
 <template>
   <div id="detail">
-    <detail-nav-bar class="detail-nav-bar"/>
+    <detail-nav-bar ref="detailNavBar" class="detail-nav-bar"/>
     <scroll class="content" :options="scrollOptions" ref="scroll" @scroll="scroll">
-      <detail-swiper :topImages="topImages" class="detail-swiper"/>
+      <detail-swiper ref="detailSwiper" :topImages="topImages" class="detail-swiper"/>
       <detail-base-info :goods="goods"/>
       <detail-shop-info :shop="shop"/>
       <detail-goods-info class="detail-goods-info" :detailInfo="detailInfo" @goodsImageLoaded="goodsImageLoaded"/>
-      <detail-param-info :paramInfo="paramInfo"/>
-      <detail-comment-info :commentInfo="commentInfo"/>
-      <detail-recommend-info :recommendList="recommendList"/>
+      <detail-param-info ref="detailParamInfo" :paramInfo="paramInfo"/>
+      <detail-comment-info ref="detailCommentInfo" :commentInfo="commentInfo"/>
+      <detail-recommend-info ref="detailRecommendInfo" :recommendList="recommendList"/>
     </scroll>
   </div>
 </template>
-
 <script>
 import DetailNavBar from "./childComponents/DetailNavBar";
 import DetailSwiper from "./childComponents/DetailSwiper";
@@ -42,7 +41,12 @@ export default {
       detailInfo: {},
       paramInfo: {},
       commentInfo: {},
-      recommendList: []
+      recommendList: [],
+
+      detailSwiperOffsetY: 0,
+      detailParamInfoOffsetY: 0,
+      detailCommentInfoOffsetY: 0,
+      detailRecommendInfoOffsetY: 0
     }
   },
   components: {
@@ -106,13 +110,45 @@ export default {
     },
 
     scroll(pos) {
-      // console.log(pos)
+      const y = -pos.y
+      const currIndex = this.$refs.detailNavBar.currIndex
+      let index
+
+      if(y < this.detailParamInfoOffsetY) {
+        index = 0
+      } else if(y >= this.detailParamInfoOffsetY && y < this.detailCommentInfoOffsetY) {
+        index = 1
+      } else if(y >= this.detailCommentInfoOffsetY && y < this.detailRecommendInfoOffsetY) {
+        index = 2
+      } else if(y >= this.detailRecommendInfoOffsetY) {
+        index = 3
+      }
+
+      if(index !== currIndex) {
+        this.$refs.detailNavBar.setTabIndex(index)
+      }
     },
     refresh() {},
 
     // 商品详细信息加载完成后刷新scroll高度
     goodsImageLoaded() {
       this.refresh()
+      this.detailSwiperOffsetY = this.$refs.detailSwiper.$el.offsetTop
+      this.detailParamInfoOffsetY = this.$refs.detailParamInfo.$el.offsetTop
+      this.detailCommentInfoOffsetY = this.$refs.detailCommentInfo.$el.offsetTop
+      this.detailRecommendInfoOffsetY = this.$refs.detailRecommendInfo.$el.offsetTop
+    },
+
+    scrollTo(index) {
+      if(index === 0) {
+        this.$refs.scroll.scrollTo(0, -this.detailSwiperOffsetY, 0)
+      } else if(index === 1) {
+        this.$refs.scroll.scrollTo(0, -this.detailParamInfoOffsetY, 0)
+      } else if(index === 2) {
+        this.$refs.scroll.scrollTo(0, -this.detailCommentInfoOffsetY, 0)
+      } else if(index === 3) {
+        this.$refs.scroll.scrollTo(0, -this.detailRecommendInfoOffsetY, 0)
+      }
     }
   }
 }
