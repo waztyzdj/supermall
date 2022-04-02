@@ -60,7 +60,8 @@ export default {
       },
       isShowBackTop: false,
       tabControlOffsetTop: 0,
-      isFixTabControl: false
+      isFixTabControl: false,
+      saveY: 0
     }
   },
   components: {
@@ -99,6 +100,17 @@ export default {
     setTimeout(() => {
       this.tabControlOffsetTop = this.$refs.tabControl2.$el.offsetTop
     }, 1000)
+  },
+
+  activated() {
+    // 页面回来时滚动到Y原来的位置
+    this.$refs.scroll.scrollTo(0, this.saveY, 0)
+    this.$refs.scroll.refresh()
+  },
+
+  deactivated() {
+    // 页面离开时保存Y滚动的位置
+    this.saveY = this.$refs.scroll.getScrollY()
   },
   methods: {
     /**
