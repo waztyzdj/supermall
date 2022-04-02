@@ -1,9 +1,11 @@
 <template>
   <div class="detail">
-    <detail-nav-bar/>
-    <detail-swiper :topImages="topImages" class="detail-swiper"/>
-    <detail-base-info :goods="goods"/>
-    <detail-shop-info :shop="shop"/>
+    <detail-nav-bar class="detail-nav-bar"/>
+    <scroll class="content" :options="scrollOptions" ref="scroll" @scroll="scroll">
+      <detail-swiper :topImages="topImages" class="detail-swiper"/>
+      <detail-base-info :goods="goods"/>
+      <detail-shop-info :shop="shop"/>
+    </scroll>
   </div>
 </template>
 
@@ -12,6 +14,8 @@ import DetailNavBar from "./childComponents/DetailNavBar";
 import DetailSwiper from "./childComponents/DetailSwiper";
 import DetailBaseInfo from "./childComponents/DetailBaseInfo";
 import DetailShopInfo from "./childComponents/DetailShopInfo";
+
+import Scroll from "components/common/scroll/Scroll";
 
 import { getDetail, Goods, Shop } from "network/detail";
 
@@ -22,14 +26,19 @@ export default {
       iid: null,
       topImages: [],
       goods: {},
-      shop: {}
+      shop: {},
+      scrollOptions: {
+        probeType: 3,
+      }
     }
   },
   components: {
     DetailNavBar,
     DetailSwiper,
     DetailBaseInfo,
-    DetailShopInfo
+    DetailShopInfo,
+
+    Scroll
   },
   created() {
     this.iid = this.$route.params.iid
@@ -53,6 +62,9 @@ export default {
         // 4. 获取店铺基本信息
         this.shop = new Shop(data.shopInfo);
       })
+    },
+    scroll(pos) {
+      // console.log(pos)
     }
   }
 }
@@ -61,5 +73,19 @@ export default {
 <style scoped>
   .detail-swiper {
     height: 300px;
+  }
+
+  .detail {
+    height: 100vh;
+    position: relative;
+  }
+
+  .content {
+    overflow: hidden;
+    position: absolute;
+    top: 44px;
+    bottom: 49px;
+    left: 0px;
+    right: 0px;
   }
 </style>
