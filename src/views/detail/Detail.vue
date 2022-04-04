@@ -10,6 +10,7 @@
       <detail-comment-info ref="detailCommentInfo" :commentInfo="commentInfo"/>
       <detail-recommend-info ref="detailRecommendInfo" :recommendList="recommendList"/>
     </scroll>
+    <detail-bottom-bar/>
   </div>
 </template>
 <script>
@@ -21,6 +22,7 @@ import DetailGoodsInfo from "./childComponents/DetailGoodsInfo";
 import DetailParamInfo from "./childComponents/DetailParamInfo";
 import DetailCommentInfo from "./childComponents/DetailCommentInfo";
 import DetailRecommendInfo from "./childComponents/DetailRecommendInfo";
+import DetailBottomBar from "./childComponents/DetailBottomBar";
 
 import Scroll from "components/common/scroll/Scroll";
 
@@ -58,6 +60,7 @@ export default {
     DetailParamInfo,
     DetailCommentInfo,
     DetailRecommendInfo,
+    DetailBottomBar,
 
     Scroll
   },
@@ -173,7 +176,7 @@ export default {
   }
 
   .content {
-    height: calc(100% - 44px);
+    height: calc(100% - 44px - 58px);
     overflow: hidden;
   }
 
