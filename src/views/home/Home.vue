@@ -31,12 +31,12 @@ import Feature from "./childComponents/Feature";
 import NavBar from 'components/common/navBar/NavBar';
 import TabControl from "components/common/tabControl/TabControl";
 import Scroll from "components/common/scroll/Scroll";
-import BackTop from "components/common/backTop/BackTop";
 
 import GoodsList from "components/content/goodsList/GoodsList";
 
 import { getHomeMultidata, getHomeGoods } from 'network/home';
 import { debounce } from 'common/utils'
+import { backTopMixin } from 'common/mixin'
 
 export default {
   name: 'Home',
@@ -58,7 +58,6 @@ export default {
           threshold: 1000
         }
       },
-      isShowBackTop: false,
       tabControlOffsetTop: 0,
       isFixTabControl: false,
       saveY: 0
@@ -72,10 +71,10 @@ export default {
     NavBar,
     TabControl,
     Scroll,
-    BackTop,
 
     GoodsList
   },
+  mixins: [backTopMixin],
   created: function () {
     // 获取首页banner及recommend数据
     this.getHomeMultidata()
@@ -129,10 +128,6 @@ export default {
       this.$refs.tabControl2.currIndex = index
     },
 
-    backTopClick() {
-      this.$refs.scroll.scrollTo(0, 0);
-    },
-
     // 下滑到底部加载数据
     loadMore(){
       this.getHomeGoods(this.currTabType)
@@ -140,7 +135,7 @@ export default {
 
     // 滑动时触发
     scroll(pos) {
-      this.isShowBackTop = pos.y <= -1000
+      this.lintenIsShowBackTop()
       this.isFixTabControl = -pos.y >= this.tabControlOffsetTop
     },
 

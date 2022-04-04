@@ -10,6 +10,7 @@
       <detail-comment-info ref="detailCommentInfo" :commentInfo="commentInfo"/>
       <detail-recommend-info ref="detailRecommendInfo" :recommendList="recommendList"/>
     </scroll>
+    <back-top v-show="isShowBackTop" class="back-top" @click.native="backTopClick"></back-top>
     <detail-bottom-bar/>
   </div>
 </template>
@@ -28,6 +29,7 @@ import Scroll from "components/common/scroll/Scroll";
 
 import { getDetail, getRecommend, Goods, Shop, GoodsParam } from "network/detail";
 import { debounce } from "common/utils";
+import { backTopMixin } from 'common/mixin'
 
 export default {
   name: "Detail",
@@ -51,6 +53,7 @@ export default {
       detailRecommendInfoOffsetY: 0
     }
   },
+  mixins: [backTopMixin],
   components: {
     DetailNavBar,
     DetailSwiper,
@@ -113,6 +116,7 @@ export default {
     },
 
     scroll(pos) {
+      this.lintenIsShowBackTop()
       const y = -pos.y
       const currIndex = this.$refs.detailNavBar.currIndex
       let index
@@ -152,6 +156,7 @@ export default {
       } else if(index === 3) {
         this.$refs.scroll.scrollTo(0, -this.detailRecommendInfoOffsetY, 0)
       }
+      this.lintenIsShowBackTop()
     }
   }
 }
