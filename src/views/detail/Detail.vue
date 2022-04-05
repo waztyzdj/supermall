@@ -11,7 +11,7 @@
       <detail-recommend-info ref="detailRecommendInfo" :recommendList="recommendList"/>
     </scroll>
     <back-top v-show="isShowBackTop" class="back-top" @click.native="backTopClick"></back-top>
-    <detail-bottom-bar/>
+    <detail-bottom-bar @addToCart="addToCart"/>
   </div>
 </template>
 <script>
@@ -157,6 +157,18 @@ export default {
         this.$refs.scroll.scrollTo(0, -this.detailRecommendInfoOffsetY, 0)
       }
       this.lintenIsShowBackTop()
+    },
+
+    addToCart() {
+      const product = {}
+      product.iid = this.iid
+      product.image = this.topImages[0]
+      product.title = this.goods.title
+      product.desc = this.goods.desc
+      product.price = this.goods.newPrice
+      product.count = 1
+
+      this.$store.commit('addToCartList', product)
     }
   }
 }
