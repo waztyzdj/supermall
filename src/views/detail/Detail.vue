@@ -168,7 +168,7 @@ export default {
       product.price = this.goods.newPrice
       product.count = 1
 
-      this.$store.commit('addToCartList', product)
+      this.$store.dispatch('addToCartList', product)
     }
   }
 }
