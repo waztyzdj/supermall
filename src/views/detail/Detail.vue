@@ -30,6 +30,7 @@ import Scroll from "components/common/scroll/Scroll";
 import { getDetail, getRecommend, Goods, Shop, GoodsParam } from "network/detail";
 import { debounce } from "common/utils";
 import { backTopMixin } from 'common/mixin'
+import { mapActions } from 'vuex'
 
 export default {
   name: "Detail",
@@ -81,6 +82,7 @@ export default {
     this.refresh = debounce(this.$refs.scroll.refresh, 200)
   },
   methods: {
+    ...mapActions(['addToCartList']),
     getDetailData() {
       getDetail(this.iid).then(res => {
         // 1. 获取结果
@@ -168,7 +170,7 @@ export default {
       product.price = this.goods.nowPrice
       product.count = 1
 
-      this.$store.dispatch('addToCartList', product).then(res => {
+      this.addToCartList(product).then(res => {
         console.log(res)
       })
     }
