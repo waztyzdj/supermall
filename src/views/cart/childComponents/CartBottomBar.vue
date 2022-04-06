@@ -35,7 +35,7 @@ export default {
     totalAmt() {
       let totalAmt = 0
       this.cartList.filter(item => item.checked).forEach(item => totalAmt += item.count * item.price)
-      return totalAmt
+      return totalAmt.toFixed(2)
     },
     totalCount() {
       this.isAll = this.cartList.filter(item => item.checked).length === this.cartListLength
