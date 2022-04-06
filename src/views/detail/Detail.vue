@@ -168,7 +168,9 @@ export default {
       product.price = this.goods.nowPrice
       product.count = 1
 
-      this.$store.dispatch('addToCartList', product)
+      this.$store.dispatch('addToCartList', product).then(res => {
+        console.log(res)
+      })
     }
   }
 }
