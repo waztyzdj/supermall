@@ -1,9 +1,9 @@
 <template>
-    <div>
-      <div class="icon-selector" :class="{'selector-active': checked}" @click="selectItem">
-        <img src="~/assets/img/cart/tick.svg" alt="">
-      </div>
+  <div>
+    <div class="icon-selector" :class="{'selector-active': checked}" @click="selectItem">
+      <img src="~/assets/img/cart/tick.svg" alt="">
     </div>
+  </div>
 </template>
 
 <script>
@@ -21,7 +21,7 @@
       }
     },
     methods: {
-      selectItem: function () {
+      selectItem() {
         this.$emit('checkBtnClick')
       }
     },

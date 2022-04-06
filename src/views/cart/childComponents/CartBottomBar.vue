@@ -1,62 +1,86 @@
 <template>
-  <div class="cart-bottom-bar">
-    <check-button/>
-    <div class="title">全选&nbsp;&nbsp;合计￥{{totalAmt}}</div>
-    <div class="to-calc">去结算</div>
+  <div class="bottom-menu">
+    <check-button class="select-all" v-model="isAll" @checkBtnClick="selectAll"></check-button>
+    <span>全选</span>
+    <span class="total-price">合计: ¥{{totalAmt}}</span>
+    <span class="buy-product">去结算({{totalCount}})</span>
   </div>
 </template>
 
 <script>
 import CheckButton from "./CheckButton";
 
+import { mapGetters } from 'vuex'
+
 export default {
   name: "CartBottomBar",
-  props: {
-    isAll: {
-      type: Boolean,
-      default() {
-        return true
-      }
-    },
-    totalAmt: {
-      type: Number,
-      default() {
-        return 0
-      }
-    }
-  },
   components: {
     CheckButton
+  },
+  data(){
+    return {
+      isAll: true
+    }
+  },
+  methods: {
+    selectAll() {
+      this.isAll = !this.isAll
+      this.cartList.map(item => {
+        item.checked = this.isAll
+      })
+    }
+  },
+  computed: {
+    ...mapGetters(['cartList', 'cartListLength']),
+    totalAmt() {
+      let totalAmt = 0
+      this.cartList.filter(item => item.checked).forEach(item => totalAmt += item.count * item.price)
+      return totalAmt
+    },
+    totalCount() {
+      this.isAll = this.cartList.filter(item => item.checked).length === this.cartListLength
+      return this.cartList.filter(item => item.checked).length
+    }
   }
 }
 </script>
 
 <style scoped>
-  .cart-bottom-bar {
+  .bottom-menu {
+    width: 100%;
+    height: 44px;
+    background-color: #eee;
     position: fixed;
-    left: 0px;
-    right: 0px;
-    bottom: 49px;
-    z-index: 16;
-    height: 49px;
-    line-height: 49px;
-    display: flex;
+    bottom: 50px;
+    left: 0;
+    box-shadow: 0 -2px 3px rgba(0, 0, 0, .2);
+    font-size: 14px;
+    color: #888;
+    line-height: 44px;
+    padding-left: 35px;
+    box-sizing: border-box;
   }
 
-  .to-calc {
+  .bottom-menu .select-all {
+    position: absolute;
+    line-height: 0;
+    left: 12px;
+    top: 13px;
+  }
+
+  .bottom-menu .total-price {
+    margin-left: 15px;
+    font-size: 16px;
+    color: #666;
+  }
+
+  .bottom-menu .buy-product {
     background-color: orangered;
     color: #fff;
-    width: 35%;
+    width: 100px;
+    height: 44px;
     text-align: center;
-  }
-
-  .title {
-    background-color: #f2f2f2;
-    color: #666666;
-    width: 65%;
-  }
-
-  .is-all {
-    color: var(--color-tint);
+    line-height: 44px;
+    float: right;
   }
 </style>

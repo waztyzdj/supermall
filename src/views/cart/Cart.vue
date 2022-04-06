@@ -1,8 +1,7 @@
 <template>
   <div id="cart">
     <cart-nav-bar/>
-    <scroll class="content">
-    </scroll>
+    <cart-list class="content"/>
     <cart-bottom-bar/>
   </div>
 </template>
@@ -10,22 +9,20 @@
 <script>
 
 import CartNavBar from "./childComponents/CartNavBar";
+import CartList from "./childComponents/CartList";
 import CartBottomBar from "./childComponents/CartBottomBar";
-
-import Scroll from "components/common/scroll/Scroll";
 
 export default {
   name: "Cart",
   components: {
     CartNavBar,
-    CartBottomBar,
-    Scroll
+    CartList,
+    CartBottomBar
   }
 };
 </script>
 
-<style>
-
+<style scoped>
   #cart {
     height: 100vh;
     position: relative;
