@@ -17,17 +17,10 @@ export default {
   components: {
     CheckButton
   },
-  data(){
-    return {
-      isAll: true
-    }
-  },
   methods: {
     selectAll() {
-      this.isAll = !this.isAll
-      this.cartList.map(item => {
-        item.checked = this.isAll
-      })
+      let isAll = !this.isAll
+      this.cartList.map(item => {item.checked = isAll})
     }
   },
   computed: {
@@ -38,8 +31,10 @@ export default {
       return totalAmt.toFixed(2)
     },
     totalCount() {
-      this.isAll = this.cartList.filter(item => item.checked).length === this.cartListLength
       return this.cartList.filter(item => item.checked).length
+    },
+    isAll() {
+      return this.cartListLength === 0 ? false : this.cartList.filter(item => item.checked).length === this.cartListLength
     }
   }
 }
