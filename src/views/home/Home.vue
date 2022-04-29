@@ -142,15 +142,22 @@ export default {
     /**
      * 网络请求方法
      */
-    // 获取首页banner及recommend数据
-    getHomeMultidata() {
-      getHomeMultidata().then(res => {
-        this.banner = res.data.banner.list
-        this.recommend = res.data.recommend.list
-      });
+    // 获取首页banner及recommend数据(Promise实现方法)
+    // getHomeMultidata() {
+    //   getHomeMultidata().then(res => {
+    //     this.banner = res.data.banner.list
+    //     this.recommend = res.data.recommend.list
+    //   });
+    // },
+    // 获取首页banner及recommend数据(async-await实现方法)
+    async getHomeMultidata() {
+      let result = await getHomeMultidata()
+      this.banner = result.data.banner.list
+      this.recommend = result.data.recommend.list
     },
 
-    // 获取首页商品数据
+    // 获取首页商品数据(Promise实现方法)
+    /*
     getHomeGoods(type) {
       const page = this.goods[type].page + 1
       getHomeGoods(type, page).then(res => {
@@ -158,6 +165,15 @@ export default {
         this.goods[type].page = page
         this.$refs.scroll.finishPullUp()
       })
+    }
+    */
+    // 获取首页商品数据(async-await实现方法)
+    async getHomeGoods(type) {
+      const page = this.goods[type].page + 1
+      let result = await getHomeGoods(type, page)
+      this.goods[type].list.push(...result.data.list)
+      this.goods[type].page = page
+      this.$refs.scroll.finishPullUp()
     }
   }
 };
